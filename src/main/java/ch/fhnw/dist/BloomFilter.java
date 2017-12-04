@@ -77,7 +77,7 @@ public class BloomFilter {
     }
 
     private int getPosition(String word, HashFunction hash) {
-        int hashCode = hash.hashString(word, Charset.defaultCharset()).asInt();
+        int hashCode = Math.abs(hash.hashString(word, Charset.defaultCharset()).asInt());
         return hashCode % array.length;
     }
 
