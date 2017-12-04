@@ -21,7 +21,8 @@ public class Main {
         Path path = Paths.get("./words.txt");
         List<String> words = Files.lines(path).collect(Collectors.toList());
 
-        double errorProbability = 1.0E-06;
+        double errorProbability = 1.0E-03;
+        int numberOfNonExistingEntries = 100_000;
 
         BloomFilter bloomFilter = new BloomFilter(words.size(), errorProbability);
 
@@ -29,7 +30,20 @@ public class Main {
             bloomFilter.put(word);
         }
 
+        int fp = 0;
+        for (int i = 0; i < numberOfNonExistingEntries; i++) {
+            if (bloomFilter.mightContain(String.valueOf(i))) {
+                fp++;
+            }
+        }
+
+        double errorRate = 100 / (double) words.size() * (double) fp;
+
+        System.out.println("number of non existing entries=" + numberOfNonExistingEntries);
+        System.out.println("n=" + words.size());
         System.out.println("p=" + errorProbability);
+        System.out.println("false positives=" + fp);
+        System.out.println("errorRate in percent=" + errorRate);
         System.out.println(bloomFilter);
     }
 
