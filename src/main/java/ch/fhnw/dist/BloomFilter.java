@@ -1,25 +1,41 @@
 package ch.fhnw.dist;
 
+import com.google.common.hash.HashFunction;
+import com.google.common.hash.Hashing;
+
+import java.nio.charset.Charset;
+
 /**
  * @author Hasan Kara <hasan.kara@students.fhnw.ch>
  */
 public class BloomFilter {
 
+    HashFunction[] hashes;
     boolean[] array;
-    /**
-     * k
-     */
     final int numberOfHashingAlgs;
-
 
     /**
      *
-     * @param size m
-     * @param numberOfHashingAlgs k
+     * @param n number of expected entries
+     * @param p wanted errorProbability
      */
-    public BloomFilter(int size, int numberOfHashingAlgs) {
-        this.numberOfHashingAlgs = numberOfHashingAlgs;
-        array = new boolean[size];
+    public BloomFilter(int n, double p) {
+
+        BloomFilterSettings bloomFilterSettings = optimalBloomFilter(n, p);
+
+        this.numberOfHashingAlgs = bloomFilterSettings.k;
+        array = new boolean[bloomFilterSettings.m];
+
+        createHashers(this.numberOfHashingAlgs);
+    }
+
+    private void createHashers(int numberOfHashingAlgs) {
+        hashes = new HashFunction[this.numberOfHashingAlgs];
+
+        for (int i = 0; i < numberOfHashingAlgs; i++) {
+            hashes[i] = Hashing.murmur3_128(i);
+        }
+
     }
 
     /**
@@ -39,6 +55,30 @@ public class BloomFilter {
         int k = (int) ((m / n) * Math.log(2));
 
         return new BloomFilterSettings(m, k);
+    }
+
+    public void put(String word) {
+        for (HashFunction hash : hashes) {
+            int position = getPosition(word, hash);
+            array[position] = true;
+        }
+    }
+
+    public boolean mightContain(String word) {
+        for (HashFunction hash : hashes) {
+            int position = getPosition(word, hash);
+
+            if (!array[position]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private int getPosition(String word, HashFunction hash) {
+        int hashCode = hash.hashString(word, Charset.defaultCharset()).asInt();
+        return hashCode % array.length;
     }
 
     public static class BloomFilterSettings {
