@@ -47,5 +47,22 @@ welche dann normal durchsucht wird.
 Quelle: http://blog.alexyakunin.com/2010/03/nice-bloom-filter-application.html
 
 ## Beschreibung Fehlerwahrscheinlichkeit
+Die Fehlerwahrscheinlichkeit wurde mit folgenden Schritten getestet:  
+1. Alle Wörter in den Bloom-Filter einfügen.
+2. x-Anzahl überprüfungen von Wörter, die garantiert nicht im words.txt sind, durchführen (Zahlen von 0 bis x).
+3. Für alle false positives inkrementieren
+4. Error rate = 100 / words.size * false positives
 
 ### Test-Resultate
+Können selber durchgeführt werden, indem `double errorProbability` und `int numberOfNonExistingEntries` im `Main.java` 
+angepasst wird und das Programm ausgeführt wird.  
+
+Beispiel Ausgabe unseres Programms:  
+```
+number of non existing entries=100000
+n=58110
+p=0.001
+false positives=94
+errorRate in percent=0.16176217518499397
+BloomFilter{m=835481, k=9}
+```
