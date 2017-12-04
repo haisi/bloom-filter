@@ -4,6 +4,7 @@ import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hashing;
 
 import java.nio.charset.Charset;
+import java.util.Arrays;
 
 /**
  * @author Hasan Kara <hasan.kara@students.fhnw.ch>
@@ -99,4 +100,11 @@ public class BloomFilter {
         }
     }
 
+    @Override
+    public String toString() {
+        return "BloomFilter{" +
+                "m=" + array.length +
+                ", k=" + numberOfHashingAlgs +
+                '}';
+    }
 }

@@ -28,6 +28,9 @@ public class Main {
         for (String word : words) {
             bloomFilter.put(word);
         }
+
+        System.out.println("p=" + errorProbability);
+        System.out.println(bloomFilter);
     }
 
 }
