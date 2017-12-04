@@ -4,8 +4,8 @@ Bloom-Filter
 Projekt von Hasan Kara und Michael Hauser
 
 ## Idee des Bloom-Filters
-Ein Bloom-Filter ist ein statistische Datenstruktur, 
-mit der man effizient überprüfen kann, ob ein Element in einer Menge 
+Ein Bloom-Filter ist eine statistische Datenstruktur, 
+mit welcher effizient überprüft werden kann, ob ein Element in einer Menge 
 vorhanden ist oder nicht. Dabei kann mann sicher sein, dass ein Element 
 sicher nicht in der Menge ist. Dass ein Element ganz sicher in der Menge ist,
 weiss man unter umständen nicht. 
