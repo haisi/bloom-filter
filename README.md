@@ -4,23 +4,23 @@ Bloom-Filter
 Projekt von Hasan Kara und Michael Hauser
 
 ## Idee des Bloom-Filters
-Ein Bloom-Filter ist eine statistische Datenstruktur, 
-mit welcher effizient überprüft werden kann, ob ein Element in einer Menge 
-vorhanden ist oder nicht. Dabei kann mann sicher sein, dass ein Element 
-sicher nicht in der Menge ist. Dass ein Element ganz sicher in der Menge ist,
-weiss man unter umständen nicht. 
+Ein Bloom-Filter ist eine statistische Datenstruktur,
+mit welcher effizient überprüft werden kann, ob ein Element in einer Menge
+vorhanden ist oder nicht. Dabei kann man sicher sein, ob ein Element sicher nicht
+in der Menge ist. Dass ein Element sicher in der Menge vorhanden ist, weiss man
+normalerweise nicht.
 
-Die Funkionsweise ist wie folgendermassen:
-- Es gibt ein Array der Grösse m. Alle Felder sind am Anfang auf 0.
-- Es gibt k Hashfunkionen welche für ein Wort eine Position des Arrays berechnen
-- Einfügen eines Wertes in den Filter: An jeder der berechneten Positionen wird eine 1 geschrieben
-- Überprüfen, ob ein Wert vorhanden ist: mit den Hashfunktionen die Arraypositionen berechnen.
+Die Funktionsweise ist wie folgendermassen:
+- Es gibt ein Array der Grösse m. Alle Felder haben am Anfang den Wert 0.
+- Es gibt k Hashfunkionen welche für ein Wort eine Position des Arrays berechnen.
+- **Einfügen eines Wertes in den Filter:** An jeder der berechneten Positionen wird eine 1 geschrieben.
+- **Überprüfen, ob ein Wert vorhanden ist:** mit den Hashfunktionen die Arraypositionen berechnen.
   Falls an mind. einer dieser Positionen eine 0 steht, ist der Wert sicher nicht vorhanden.
   Sonst ist der Wert evtl. vorhanden.
 
 ### Vorteile
-- Sehr effizientes überprüfen, ob ein Wert element einer Menge ist (auch bei sehr grossen Mengen)
-- Der Bloom Filter speichert nicht die Werte selbst und ist somit ressourcensparender als z.B. eine Hashtabelle
+- Sehr effizientes Überprüfen, ob ein Wert Element einer Menge ist (auch bei sehr grossen Datenmengen)
+- Der Bloom Filter speichert nicht die Werte selbst und braucht somit viel weniger Speicherplatz als z.B. eine Hashtabelle
 
 ### Nachteile
 - Eignet sich nur zum überprüfen, ob ein Wert sicher nicht Element einer Menge ist.
@@ -30,19 +30,18 @@ Die Funkionsweise ist wie folgendermassen:
   Dies kann man zu diesem Zeitpunkt unter Umständen nur grob abschätzen.
   (Ein ["Scaleable Bloom Filter"](http://gsd.di.uminho.pt/members/cbm/ps/dbloom.pdf) wäre da eine Alternative).
 - Das Hinzufügen von Werten zum Bloom Filter ist in der Regel aufwändiger als z.B.
-  bei einer Hashtabelle, da man k Hashfunktionen berechnen dementsprechend viele Werte im 
+  bei einer Hashtabelle, da man k Hashfunktionen berechnen und dementsprechend viele Werte im
   Array ändern muss.
 - Man kann (zumindest bei einer Standard-Implementierung) keine Elemente entfernen
   und auch nicht feststellen welche Elemente schon vorhanden sind.
 
 ## Beispiel aus der Praxis
-Google Chrome (oder zumindest gewisse Versionen davon) verwendet einen Bloomfilter um eine Webseite schnell als schädlich oder 
-unschädlich einzustufen. Der Bloomfilter enthält dabei die bekannten schädlichen Webseiten.
-Falls eine Webseite nicht im Filter gefunden wird, ist sie sicher nicht schädlich 
-(zumendest gemäss den Listen der Bekannten schädlichen Seiten). Falls die geprüfte Seite
+Google Chrome (oder zumindest gewisse Versionen davon) verwendet einen Bloom-Filter um eine Webseite schnell als schädlich oder
+unschädlich einzustufen. Der Bloom-Filter enthält dabei die bekannten schädlichen Webseiten.
+Falls eine Webseite nicht im Filter gefunden wird, ist sie sicher nicht schädlich
+(zumindest gemäss der Datenbank der bekannten schädlichen Seiten). Falls die geprüfte Seite
 im Filter vorhanden ist, ist sie mit hoher Wahrscheinlichkeit schädlich.
-Um dies mit Sicherheit zu Überprüfen wird eine Anfrage an eine Datanbank von Google gesendet
-welche dann normal durchsucht wird.
+Um dies mit Sicherheit zu Überprüfen wird dann eine zusätzliche Anfrage an eine Datenbank von Google gesendet.
 
 Quelle: http://blog.alexyakunin.com/2010/03/nice-bloom-filter-application.html
 
