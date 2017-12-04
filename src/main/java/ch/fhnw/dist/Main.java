@@ -1,7 +1,6 @@
 package ch.fhnw.dist;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -20,11 +19,15 @@ public class Main {
     private void start() throws IOException {
 
         Path path = Paths.get("./words.txt");
-        String wordsContent = new String(Files.readAllBytes(path));
         List<String> words = Files.lines(path).collect(Collectors.toList());
 
-        System.out.println(words);
+        double errorProbability = 1.0E-06;
 
+        BloomFilter bloomFilter = new BloomFilter(words.size(), errorProbability);
+
+        for (String word : words) {
+            bloomFilter.put(word);
+        }
     }
 
 }
